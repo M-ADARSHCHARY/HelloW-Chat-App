@@ -3,6 +3,10 @@ import {axiosInstance} from '../lib/axios.js';
 import {toast} from 'react-hot-toast';
 import {useAuthStore} from "./useAuthStore.js"
 
+let deleteMsgHandler = null;
+let clearChatHandler = null;
+let subsToMsgsHandler = null;
+
 export const useChatStore = create((set,get)=>({
 
     messages:[],
@@ -22,7 +26,7 @@ export const useChatStore = create((set,get)=>({
             toast.error(error.response.data.message || 'something went wrong..!');
             console.log('error in useChatStore: ', error);
         } finally {
-            set({isUersLoading:false});
+            set({isUsersLoading:false});
         }
     },
     getMessages: async (userId)=>{
@@ -56,15 +60,16 @@ export const useChatStore = create((set,get)=>({
        const {selectedUser} = get()
         if(!selectedUser) return;
         const socket = useAuthStore.getState().socket;
-
-        socket.on("newMessage",(newMessage)=>{
+        subsToMsgsHandler = (newMessage) => {
+            // console.log("frontEnd:",newMessage)
             if(newMessage.senderId !== selectedUser._id) return;
             set({messages:[...get().messages,newMessage]},) // let previous messages be there
-        })
+        }
+        socket.on("newMessage",subsToMsgsHandler)
     },
     unSubsToMsgs:()=>{
         const socket = useAuthStore.getState().socket;
-        socket.off("newMessage");
+        socket.off("newMessage",subsToMsgsHandler);
     },
     setSelectedUser:(selectedUser)=>{
         set({selectedUser});
@@ -88,13 +93,34 @@ export const useChatStore = create((set,get)=>({
             console.log("error in deleteAllMsgs",error);
             toast.error(error.response.message);
           }
+    },
+    clearChatSubs:()=>{
+        const socket = useAuthStore.getState().socket;
+        // console.log("delMsgSubs called",socket);
+          clearChatHandler = (emptyArr)=>{
+                // console.log(emptyArr)
+                set({messages:emptyArr}) // replace with empty array in msgs to receiver
+                toast.success(`chat cleared by ${get().selectedUser.fullName}`)
+                //console.log(get().messages)
+            }
+          socket.on("clearChat",clearChatHandler)
+    },
+    clearChatUnsubs:()=>{
+        const socket = useAuthStore.getState().socket;
+        socket.off("clearChat",clearChatHandler);
+    },
+    delMsgSubscribe:()=>{
+         const socket = useAuthStore.getState().socket;
+            deleteMsgHandler = (deletedMsg) => {
+             set({messages:get().messages.filter((message)=>(message._id !== deletedMsg._id))})
+             toast.success(`msg deleted by ${get().selectedUser.fullName}`)
+            //  console.log("remaining:",get().messages)
+         }
+         socket.on("msgDelete",deleteMsgHandler)
+    },
+    delMsgUnsubscribe:()=>{
+         const socket = useAuthStore.getState().socket;
+         socket.off("msgDelete",deleteMsgHandler); 
     }
-
 })
-
-
-
-
-
-
 )

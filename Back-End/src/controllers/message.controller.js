@@ -3,7 +3,7 @@ import Message from "../models/message.model.js";
 import  cloudinary  from "../lib/cloudinary.js";
 import { getReceiverSocketId } from "../lib/socket.js";
 import {io} from "../lib/socket.js";
-import mongoose from "mongoose";
+
 export const getUsersForSideBar = async (req, res) => {
     try{
         // Get all users except the logged in user
@@ -62,7 +62,7 @@ export const sendMessage = async (req,res)=>{
 
         await newMessage.save(); // save the message to the database
 
-        //todo: send the message to the receiver using socket.io
+        
         const receiverSocketId = getReceiverSocketId(receiverId);
         if(receiverSocketId){
             // if it exists it means he/she is online
@@ -79,8 +79,14 @@ export const sendMessage = async (req,res)=>{
 export const deleteSingleMsg = async (req,res)=>{
     const {msgId} = req.params;
     try{
-        console.log("id at bkend:",msgId)
+        // console.log("id at bkend:",msgId)
         const result = await Message.findByIdAndDelete(msgId);
+        const receiverSocketId = getReceiverSocketId(result.receiverId);
+        // console.log("receiverSocketId",receiverSocketId)
+        if(receiverSocketId){
+            io.to(receiverSocketId).emit("msgDelete",result) // to is for authorization ( we want to send it only to receiver)
+            
+        }
         res.status(200).json({success:true,message:"successfully deleted"})
     }catch(error){
         console.log("error in deleteSingleMsg:",error);
@@ -89,17 +95,26 @@ export const deleteSingleMsg = async (req,res)=>{
 }
 export const deleteAllMsgs = async (req,res)=>{
     const {receiverId} = req.params;
-    const {myId} = req.user._id
+    // console.log(req.user)
+    const {_id:myId} = req.user
+    // console.log("receiverId and myId: ",receiverId,myId)
 
     try{
-        const myObjectId = new mongoose.Types.ObjectId(myId);
-        const receiverObjectId = new mongoose.Types.ObjectId(receiverId);
         const result = await Message.deleteMany({
             $or:[
-            {senderId:myObjectId,receiverId:receiverObjectId}, // senderId is me and receiverId is the other user
-            {senderId:receiverObjectId,receiverId:myObjectId}  // senderId is the other user and receiverId is me
+            {senderId:receiverId,receiverId:myId}, // senderId is me and receiverId is the other user
+            {senderId:myId,receiverId:receiverId}  // senderId is the other user and receiverId is me
         ]});
-        console.log(result)
+
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if(receiverSocketId){
+            // As cleared chat so send empty array to receiver
+            //console.log("receiverSocketId:",receiverSocketId)
+            io.to(receiverSocketId).emit("clearChat",[]) // to is for authorization ( we want to send it only to receiver)
+            
+        }
+
+        // console.log(result)
         res.status(200).json({success:true,message:"Chat Cleared At receiver too..!"})
     }catch(error){
         console.log("error in deleteSingleMsg:",error);

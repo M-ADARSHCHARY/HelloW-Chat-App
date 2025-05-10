@@ -7,10 +7,9 @@ import { useAuthStore } from '../store/useAuthStore.js'
 import { formatMsgTime } from '../lib/utils.js'
 import { useEffect,useRef } from 'react'
 const ChatBox = () => {
-  const {getMessages,messages,selectedUser,isMessagesLoading,subsToMsgs,unSubsToMsgs,deleteMessage} = useChatStore();
+  const {getMessages,messages,selectedUser,isMessagesLoading,subsToMsgs,unSubsToMsgs,deleteMessage,delMsgSubscribe,delMsgUnsubscribe} = useChatStore();
   // console.log(`${selectedUser.fullName} msgs: `,messages)
   const {authUser} = useAuthStore()
- 
    const handleDelete = (msgId)=>{
         if(msgId){
           deleteMessage(msgId);
@@ -34,7 +33,13 @@ const ChatBox = () => {
      return ()=>{unSubsToMsgs()}
   },[selectedUser._id,getMessages,subsToMsgs,unSubsToMsgs])
 
+ useEffect(()=>{
+   delMsgSubscribe();
 
+   return ()=>{delMsgUnsubscribe()}
+ },[selectedUser?._id])
+
+ 
   if(isMessagesLoading) return (
   <div className="h-[90vh] md:h-[90vh] w-full bg-black-400 relative">
        <ChatHeader/>
@@ -84,9 +89,6 @@ const ChatBox = () => {
                   )}
                   {message.text && <p>{message.text}</p>}
                 </div>
-                <button onClick={()=>{handleDelete(message._id)}} className="opacity-0 hover:opacity-100 transition">
-                      <Trash className="size-4"/>
-                </button>
                 </>) }
             </div>
             {/*  */}
