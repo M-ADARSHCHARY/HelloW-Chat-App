@@ -1,6 +1,6 @@
 # 👋 HelloW-Chat-App
 
-A real-time chat application built with the **MERN stack**, featuring **Zustand** for global state management and **WebSockets** for instant messaging. Users can send and delete messages, clear chats, and update our profile pictures — with all changes reflected live for both users.
+A real-time chat application built with the **MERN stack**, featuring **Zustand** for global state management and **WebSockets** for instant messaging. Users can send and delete messages, clear chats, and update their profile pictures — with all changes reflected live for both users.
 
 ---
 
