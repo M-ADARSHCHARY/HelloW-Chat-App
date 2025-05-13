@@ -15,6 +15,7 @@ export const useChatStore = create((set,get)=>({
     isUsersLoading:false,
     isMessagesLoading:false,
     sendingMessage:false,
+    chatTheme:"bg-base-300",
 
 
     getUsers: async ()=>{
@@ -121,6 +122,10 @@ export const useChatStore = create((set,get)=>({
     delMsgUnsubscribe:()=>{
          const socket = useAuthStore.getState().socket;
          socket.off("msgDelete",deleteMsgHandler); 
+    },
+    setChatTheme:(theme)=>{
+        set({chatTheme:theme})
+        toast.success("Theme Changed successfully..!")
     }
 })
 )

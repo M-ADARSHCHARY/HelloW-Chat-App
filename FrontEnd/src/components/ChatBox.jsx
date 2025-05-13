@@ -7,9 +7,10 @@ import { useAuthStore } from '../store/useAuthStore.js'
 import { formatMsgTime } from '../lib/utils.js'
 import { useEffect,useRef } from 'react'
 const ChatBox = () => {
-  const {getMessages,messages,selectedUser,isMessagesLoading,subsToMsgs,unSubsToMsgs,deleteMessage,delMsgSubscribe,delMsgUnsubscribe} = useChatStore();
+  const {getMessages,messages,selectedUser,isMessagesLoading,subsToMsgs,unSubsToMsgs,deleteMessage,delMsgSubscribe,delMsgUnsubscribe,chatTheme} = useChatStore();
   // console.log(`${selectedUser.fullName} msgs: `,messages)
   const {authUser} = useAuthStore()
+
    const handleDelete = (msgId)=>{
         if(msgId){
           deleteMessage(msgId);
@@ -38,8 +39,8 @@ const ChatBox = () => {
 
    return ()=>{delMsgUnsubscribe()}
  },[selectedUser?._id])
-
- 
+  
+  const themes = ["#222222" , "#102E50","#000000","#006A71","#3E3F5B","#2C3930"]
   if(isMessagesLoading) return (
   <div className="h-[90vh] md:h-[90vh] w-full bg-black-400 relative">
        <ChatHeader/>
@@ -49,7 +50,7 @@ const ChatBox = () => {
        <MessageInput/>
   </div>)
   return (
-    <div className="h-[90vh] md:h-[90vh] w-full relative bg-base-200 flex flex-col justify-start">
+    <div className={`h-[90vh] md:h-[90vh] w-full relative ${chatTheme} flex flex-col justify-start`}>
        <ChatHeader/>
 
       <div  className="z-5 h-[75%] w-full bg-black-400 text-[#fff] overflow-y-auto space-y-4 overflow-hidden p-2">

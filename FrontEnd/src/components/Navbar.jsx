@@ -3,20 +3,20 @@ import { useAuthStore } from "../store/useAuthStore.js";
 import { Settings, User,LogOut ,Menu,X} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-
 const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
+  const [settingsVisible,setSettingsvisible] = useState(false)
 
   return (
-    <div className="h-[80px] w-full bg-gray-900 flex justify-between items-center px-4 sticky top-0 z-50 text-white">
+    <div className="h-[80px] w-full bg-[#424769] flex justify-between items-center px-4 sticky top-0 z-50 text-white">
       <h1 className="text-2xl font-bold cursor-pointer">
         <Link className="hover:text-blue-600" to="/">HelloW</Link>
       </h1>
 
       {/* Desktop Nav */}
       <div className="hidden sm:flex gap-4 items-center">
-        <button className="flex gap-1 items-center"><Settings className="size-6" />Settings</button>
+        {authUser && <Link className="flex gap-1 hover:text-blue-600 items-center" to="/settings"><Settings className="size-6" />Settings</Link>}
         {authUser && <Link className="flex gap-1 hover:text-blue-600 items-center" to="/profile"><User className="size-5" />Profile</Link>}
         {authUser && <button onClick={logout} className="flex gap-1 hover:text-blue-600 items-center"><LogOut className="size-5" />Logout</button>}
       </div>
