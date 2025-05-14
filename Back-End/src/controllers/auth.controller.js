@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import  cloudinary  from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
+import Message from "../models/message.model.js";
 import bcrypt from "bcryptjs";
 export const signUp = async (req, res) => {
   const { fullName, email, password, profilePic } = req.body;
@@ -135,4 +136,29 @@ export const checkAuth = (req, res) => {
     console.log("Error in checkAuth Controller:", err.message);
     res.status(500).json({message:"Internal Server Error"});
   }
+}
+
+
+export const deleteAccount = async (req,res)=>{
+    const {_id:userId} = req.user;
+     
+    // first delete all his sent/received messages .
+
+    try{
+      let resultOne = await Message.deleteMany({
+            $or:[
+            {senderId:userId}, // message sent by him
+            {receiverId:userId}  // message sent to him
+        ]})
+
+        let resultTwo = await User.findByIdAndDelete(userId);
+
+        res.status(200).clearCookie("token", {
+           httpOnly: true,
+           secure: true, // only if using HTTPS
+           sameSite: "strict", // adjust as needed
+        }).json({success:true,message:"Account deleted Successfully"})
+    }catch(error){
+      res.status(400).json({success:false,message:"failed to delete Account."});
+    } 
 }
