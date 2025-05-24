@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAuthStore } from '../Store/useAuthStore.js'
+import { useAuthStore } from '../store/useAuthStore.js'
 import { toast } from 'react-hot-toast';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
 const LoginPage = () => {
