@@ -14,16 +14,18 @@ app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
 const __dirname = path.resolve();
 
+app.use(cors({
+    origin:process.env.CLIENT_URL,
+    credentials:true,
+})) 
+
 if(process.env.NODE_ENV === "production"){
     app.use(express.static(path.join(__dirname, "../FrontEnd/dist")));
     app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "../FrontEnd", "dist", "index.html"));
     });
 }
-app.use(cors({
-    origin:process.env.CLIENT_URL,
-    credentials:true,
-})) 
+
 
 /*cors => origin: Only allows requests from your React frontend.
 credentials: true: Allows cookies (for sessions or JWT in cookies) to be sent and received.*/ 
