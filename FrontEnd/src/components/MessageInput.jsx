@@ -57,9 +57,9 @@ const MessageInput = () => {
          </button>
        <img src={imagePreview} alt="Preview"className="h-20 w-20 rounded-md"  />
       </div>):""}
-      <form onSubmit={handleSendMessage}className="min-h-[65px] h-[10vh] w-full bg-black flex items-center justify-between absolute bottom-0">
+      <form onSubmit={handleSendMessage}className="min-h-[65px] h-[10vh] w-full bg-black flex items-center justify-evenly absolute bottom-0">
      
-    <div className="h-full w-fit md:w-[85%]  flex items-center">
+    <div className="ml-1 h-full w-fit md:w-[85%]  flex items-center">
        <input type="text" className="w-full h-[70%] rounded-md md:ml-2 mr-1 text-center focus:outline-none" name="text" placeholder='send a message' autoComplete="off" onChange={(e)=>{setText(e.target.value)}} value = {text}/>
     </div>
     

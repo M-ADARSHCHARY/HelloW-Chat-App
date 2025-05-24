@@ -6,13 +6,20 @@ const SettingsPage = () => {
     const {deleteAccount,isDeletingAccount} = useAuthStore()
     const {chatTheme,setChatTheme} = useChatStore()
     const [showPopup,setShowPopup] = useState(false);
-    const handleChangeTheme = ()=>{
-       if(chatTheme == "bg-base-300"){
-           setChatTheme("bg-[#070F2B]")
-       }else{
-         setChatTheme("bg-base-300")
-       }
-    }
+    let prevThemeIndex = 0; // Outside the function to persist across calls
+
+  const handleChangeTheme = () => {
+    const themes = ["bg-base-300", "bg-[#533B4D]", "bg-[#1E1E2F]", "bg-[#2C2C3E]", "bg-[#3A3A4E]"];
+    
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * themes.length);
+    } while (newIndex === prevThemeIndex);
+
+    prevThemeIndex = newIndex;
+    setChatTheme(themes[newIndex]);
+  }
+
   return (
     <>
      <div className="h-screen w-full md:h-[80vh] md:w-[45vw] m-auto flex flex-col justify-center items-center p-6 rounded-lg shadow-xl text-white space-y-6">
@@ -35,7 +42,7 @@ const SettingsPage = () => {
             <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center space-y-4">
                 <h3 className="text-xl font-semibold text-gray-800">Confirm Deletion</h3>
-                <p className="text-gray-600">Are you sure you want to delete your account?</p>
+                <p className="text-gray-600">Are you sure.? you want to delete your account?</p>
                 
                 <div className="flex justify-around pt-4">
                 {!isDeletingAccount ? (

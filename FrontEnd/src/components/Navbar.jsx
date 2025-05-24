@@ -22,14 +22,14 @@ const Navbar = () => {
       </div>
 
       {/* Hamburger Icon */}
-      <button className="sm:hidden" onClick={() => setIsOpen(!isOpen)}>
+      {authUser && <button className="sm:hidden" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <X size={32} /> : <Menu size={32} />}
-      </button>
+      </button>}
 
       {/* Mobile Menu */}
-      {isOpen && (
+      {(isOpen && authUser) && (
         <div className="absolute top-[80px] left-0 w-full bg-gray-800 flex flex-col items-start px-4 py-4 gap-4 sm:hidden">
-          <button className="flex gap-1 items-center" onClick={() => setIsOpen(!isOpen)}><Settings className="size-6" />Settings</button>
+          <Link to="/settings" className="flex gap-1 items-center" onClick={() => setIsOpen(!isOpen)}><Settings className="size-6" />Settings</Link>
           {authUser && <Link onClick={() => setIsOpen(!isOpen) } className="flex gap-1 hover:text-blue-600 items-center" to="/profile"><User className="size-5" />Profile</Link>}
           {authUser && <button onClick={logout} className="flex gap-1 hover:text-blue-600 items-center"><LogOut className="size-5" />Logout</button>}
         </div>

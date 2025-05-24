@@ -40,7 +40,6 @@ const ChatBox = () => {
    return ()=>{delMsgUnsubscribe()}
  },[selectedUser?._id])
   
-  const themes = ["#222222" , "#102E50","#000000","#006A71","#3E3F5B","#2C3930"]
   if(isMessagesLoading) return (
   <div className="h-[90vh] md:h-[90vh] w-full bg-black-400 relative">
        <ChatHeader/>
@@ -86,7 +85,7 @@ const ChatBox = () => {
                 </>):(<>
                 <div className="bg-green-800 rounded-md p-1 flex flex-col size-fit relative">
                   {message.image && (
-                      <img src={message.image} alt="Attach" className="sm:max-w-[100px] rounded-md mb-2"/>
+                      <img src={message.image} alt="Attach" className="max-w-[100px] rounded-md mb-2"/>
                   )}
                   {message.text && <p>{message.text}</p>}
                 </div>

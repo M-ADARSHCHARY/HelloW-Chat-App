@@ -36,7 +36,7 @@ const ChatHeader = ()=> {
             </span>
          </div>
          <span className="flex gap-2">
-          <button onClick={()=>{setDelMsgs(!delMsgs)}}className="p-1 rounded-md bg-slate-500 flex justify-center items-center hover:bg-red-800"><Trash size={24}/>Clear Chat</button>
+          <button onClick={()=>{setDelMsgs(!delMsgs)}}className="p-1 rounded-md bg-slate-500 flex justify-center items-center hover:bg-red-800 text-sm"><Trash size={22}/>clear chat</button>
          <button onClick={()=>setSelectedUser(null)} className="p-2 text-[#fff] hover:text-black hover:bg-[#fff] rounded mr-2">
                  <X className="w-5 h-5" />
          </button>
