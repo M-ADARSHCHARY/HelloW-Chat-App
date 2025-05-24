@@ -6,12 +6,20 @@ import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import {app,io,server} from "./lib/socket.js";
 import cors from "cors";
+import path from "path";
 
 
-app.use(cookieParser());
 dotenv.config();
+app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
+const __dirname = path.resolve();
 
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname, "../FrontEnd/dist")));
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../FrontEnd", "dist", "index.html"));
+    });
+}
 app.use(cors({
     origin:process.env.CLIENT_URL,
     credentials:true,

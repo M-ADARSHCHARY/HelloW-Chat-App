@@ -1,0 +1,22 @@
+{
+  "name": "chat-application",
+  "version": "1.0.0",
+  "description": "A real-time chat application built with the **MERN stack**, featuring **Zustand** for global state management and **WebSockets** for instant messaging. Users can send and delete messages, clear chats, and update their profile pictures — with all changes reflected live for both users.",
+  "main": "index.js",
+  "scripts": {
+    "build":"npm install --prefix Back-End && npm install --prefix FrontEnd && npm run build --prefix FrontEnd",
+    "start":"npm run start --prefix Back-End"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-ADARSHCHARY/HelloW-Chat-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/M-ADARSHCHARY/HelloW-Chat-App/issues"
+  },
+  "homepage": "https://github.com/M-ADARSHCHARY/HelloW-Chat-App#readme"
+}
