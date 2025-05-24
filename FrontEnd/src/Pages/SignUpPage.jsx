@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuthStore } from '../Store/useAuthStore.js'
+import { useAuthStore } from '../store/useAuthStore.js'
 import { Eye, EyeOff ,Loader2 } from "lucide-react";
 import { toast } from 'react-hot-toast';
 
