@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuthStore } from "../store/useAuthStore.js";
-import { Settings, User,LogOut ,Menu,X} from 'lucide-react';
+import { Settings, User,LogOut ,Menu,X,Home} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 const Navbar = () => {
@@ -16,6 +16,7 @@ const Navbar = () => {
 
       {/* Desktop Nav */}
       <div className="hidden sm:flex gap-4 items-center">
+        {authUser && <Link to="/" className="flex gap-1 hover:text-blue-600 items-center"><Home className="size-5" />Home</Link>}
         {authUser && <Link className="flex gap-1 hover:text-blue-600 items-center" to="/settings"><Settings className="size-6" />Settings</Link>}
         {authUser && <Link className="flex gap-1 hover:text-blue-600 items-center" to="/profile"><User className="size-5" />Profile</Link>}
         {authUser && <button onClick={logout} className="flex gap-1 hover:text-blue-600 items-center"><LogOut className="size-5" />Logout</button>}
@@ -29,6 +30,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {(isOpen && authUser) && (
         <div className="absolute top-[80px] left-0 w-full bg-gray-800 flex flex-col items-start px-4 py-4 gap-4 sm:hidden">
+          {authUser && <Link onClick={() => setIsOpen(!isOpen) } to="/" className="flex gap-1 hover:text-blue-600 items-center"><Home className="size-5" />Home</Link>}
           <Link to="/settings" className="flex gap-1 items-center" onClick={() => setIsOpen(!isOpen)}><Settings className="size-6" />Settings</Link>
           {authUser && <Link onClick={() => setIsOpen(!isOpen) } className="flex gap-1 hover:text-blue-600 items-center" to="/profile"><User className="size-5" />Profile</Link>}
           {authUser && <button onClick={logout} className="flex gap-1 hover:text-blue-600 items-center"><LogOut className="size-5" />Logout</button>}

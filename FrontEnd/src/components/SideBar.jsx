@@ -13,7 +13,7 @@ const SideBar = () => {
     getUsers();
   },[getUsers])
 
-  const filteredUsers = showOnlineOnly ? users.filter(user => onlineUsers.includes(user._id)):users;
+  const filteredUsers = showOnlineOnly ? users?.filter(user => onlineUsers?.includes(user._id)):users;
   return (
     <div className="w-[100%] h-[100%] bg-black-900">
       <div className = "w-[100%]  p-5">
@@ -23,7 +23,7 @@ const SideBar = () => {
         </div>
            {/*onlinefilter toggle */}
            <div className="mt-3 hidden lg:flex items-center gap-2">
-               <label htmlFor="cursor-pointer flex items-center">
+               <label className="cursor-pointer flex items-center">
                    <input type="checkbox"  onChange={(e)=> setShowOnlineOnly(!showOnlineOnly)} className="checkbox checkbox-sm mr-1"/>
                    <span className='text-sm'>show Online only</span>
                </label>
@@ -32,7 +32,7 @@ const SideBar = () => {
       </div>
   
       <div className = "overflow-y-auto w-[100%] py-3 h-[72%] bg-black-900 flex-1 overflow-hidden">
-            {filteredUsers.map((user)=>( 
+            {filteredUsers?.map((user)=>( 
               <button key={user?._id} onClick={()=> setSelectedUser(user) } className={`w-full flex items-center gap-2 ${selectedUser?._id === user?._id ? 'bg-base-200': 'bg-black-900'} hover:bg-gray-600  p-2 rounded-md `}>
                   <div className="flex items-center justify-center gap-2 relative">
                      <img src={user?.profilePic} alt={user?.fullName} className="size-12 object-cover rounded-full"/>
@@ -45,12 +45,12 @@ const SideBar = () => {
                   <div className="hidden  sm:block lg:block text-left min-w-0 "> 
                         <div className="font-medium truncate">{user.fullName}</div>
                         <div className={onlineUsers.includes(user._id)?"text-green-500":"text-red-300"}>
-                          {onlineUsers.includes(user._id)?"Online":"offline"}
+                          {onlineUsers?.includes(user._id)?"Online":"offline"}
                         </div>
                   </div>
               </button>
             ))}
-            {filteredUsers.length == 0 && <div className="text-zinc-300 text-center">"No online users"</div>}
+            {filteredUsers?.length == 0 && <div className="text-zinc-300 text-center">"No online users"</div>}
       </div>
     </div>
   )

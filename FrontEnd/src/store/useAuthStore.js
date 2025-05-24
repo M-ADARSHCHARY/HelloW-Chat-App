@@ -19,7 +19,7 @@ export const useAuthStore = create((set,get) => ({
       set({ authUser: res.data });
       get().connectSocket();
     } catch (err) {
-      console.log("erroe in useAuthStore: ", err);
+      console.log("error in useAuthStore: ", err);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -30,7 +30,7 @@ export const useAuthStore = create((set,get) => ({
     try {
       const res = await axiosInstance.post("/auth/signup", formData);
       set({ authUser: res.data });
-      console.log("res in useAuthStore: ", res.data);
+      // console.log("res in useAuthStore: ", res.data);
       toast.success("Account Created Successfully..!");
       get().connectSocket();
     } catch (error) {
@@ -56,7 +56,7 @@ export const useAuthStore = create((set,get) => ({
     try {
       const res = await axiosInstance.post("/auth/login", formData);
       set({ authUser: res.data });
-      console.log("res in useAuthStore: ", res.data);
+      // console.log("res in useAuthStore: ", res.data);
       toast.success(res.data.message || "Logged in Successfully..!");
 
       get().connectSocket();
@@ -72,7 +72,7 @@ export const useAuthStore = create((set,get) => ({
     try {
       const res = await axiosInstance.patch("/auth/update-profile", data);
       set({ authUser: res.data });
-      console.log("res in useAuthStore: ", res.data);
+      // console.log("res in useAuthStore: ", res.data);
       toast.success("Profile Updated Successfully..!");
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong..!");
@@ -85,7 +85,7 @@ export const useAuthStore = create((set,get) => ({
   connectSocket:()=>{
     const {authUser} = get()
     if(!authUser || get().socket?.connected) return
-      const socket = io("http://localhost:3000",{
+      const socket = io(import.meta.env.VITE_BASE_URL,{
         query:{
           userId:authUser._id,
         },
