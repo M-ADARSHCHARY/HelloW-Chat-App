@@ -21,7 +21,7 @@ app.use(cors({
 
 if(process.env.NODE_ENV === "production"){
     app.use(express.static(path.join(__dirname, "../FrontEnd/dist")));
-    app.get("/*", (req, res) => {
+    app.get("/*HelloW", (req, res) => {
         res.sendFile(path.join(__dirname, "../FrontEnd", "dist", "index.html"));
     });
 }
