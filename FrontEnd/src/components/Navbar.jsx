@@ -41,16 +41,3 @@ const Navbar = () => {
 export default Navbar
 
 
-
-{/* <div className="h-[80px] w-full bg-gray-900 flex justify-between items-center px-4 sticky top-0 z-50">
-      <h1 className="text-2xl font-bold cursor-pointer"><Link className = "hover:text-blue-600" to = {"/"}>HelloW</Link></h1>
-      <div className="hidden sm:flex md:flex gap-4 items-center h-full w-fit">
-          <button className="flex gap-1"><Settings className="size-6"/>settings</button>
-          {authUser ? <Link className = "flex gap-1 hover:text-blue-600" to = {"/profile"}><User className="size-5"/>Profile</Link> : ""}
-          {authUser ? <button onClick={logout} className="flex gap-1 hover:text-blue-600"><LogOut className="size-5"/>Logout</button> : ""}
-      </div>
-
-      <button className="sm:hidden md:hidden">
-          <Menu size={32} className="text-#fff" strokeWidth={2}/>
-      </button>
-    </div> */}
