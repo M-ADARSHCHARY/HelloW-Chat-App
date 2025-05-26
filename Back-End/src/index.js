@@ -15,7 +15,7 @@ app.use(express.json({ limit: "50mb" }));
 const __dirname = path.resolve();
 
 app.use(cors({
-    origin:process.env.CLIENT_URL,
+    origin:process.env.NODE_ENV === "development"? process.env.CLIENT_URL : "*", // Allow all origins in production;
     credentials:true,
 })) 
 
