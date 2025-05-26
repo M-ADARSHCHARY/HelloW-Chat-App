@@ -6,25 +6,18 @@ import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import {app,io,server} from "./lib/socket.js";
 import cors from "cors";
-import path from "path";
 
 
 dotenv.config();
 app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
-const __dirname = path.resolve();
+
 
 app.use(cors({
-    origin:process.env.NODE_ENV === "development"? process.env.CLIENT_URL : "*", // Allow all origins in production;
+    origin:process.env.CLIENT_URL,
     credentials:true,
 })) 
 
-if(process.env.NODE_ENV === "production"){
-    app.use(express.static(path.join(__dirname, "../FrontEnd/dist")));
-    app.get("/*HelloW", (req, res) => {
-        res.sendFile(path.join(__dirname, "../FrontEnd", "dist", "index.html"));
-    });
-}
 
 
 /*cors => origin: Only allows requests from your React frontend.
