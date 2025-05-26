@@ -14,7 +14,7 @@ app.use(express.json({ limit: "50mb" }));
 
 
 app.use(cors({
-    origin:process.env.CLIENT_URL,
+    origin:process.env.DEV_MODE ==="development" ? "http://localhost:5173" : process.env.CLIENT_URL,
     credentials:true,
 })) 
 

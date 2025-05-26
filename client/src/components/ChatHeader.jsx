@@ -31,7 +31,7 @@ const ChatHeader = ()=> {
          <div className="h-full w-fit flex items-center gap-2 ml-2 justify-start">
             <img src={selectedUser?.profilePic} alt={selectedUser?.fullName} className="ml-1 size-12 object-cover rounded-full"/>
             <span className="text-1xl">
-                 <h2 className="font-bold">{selectedUser?.fullName}</h2>
+                 <h2 className="font-bold text-white">{selectedUser?.fullName}</h2>
                  <h6 className={onlineUsers.includes(selectedUser._id)?"text-green-500":"text-red-400"}>{onlineUsers.includes(selectedUser._id)?("Online"):("offline")}</h6>
             </span>
          </div>
