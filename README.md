@@ -46,9 +46,9 @@ cd HelloW-Chat-App
 
 
 # 2. Install backend dependencies
-cd Back-End
+cd server
 npm install 
 
 # 3. Install frontend dependencies
-cd FrontEnd
+cd client
 npm install
