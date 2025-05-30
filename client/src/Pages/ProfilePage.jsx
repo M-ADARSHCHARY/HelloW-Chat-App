@@ -4,7 +4,6 @@ import { Camera } from 'lucide-react';
 
 const ProfilePage = () => {
   const {authUser,isUpdatingProfile,updateProfile} = useAuthStore();
- 
   const [image,setImage] = React.useState(null);
   const handleImageUpload = (e) => {
         const file = e.target.files[0];

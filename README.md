@@ -32,7 +32,8 @@ A real-time chat application built with the **MERN stack**, featuring **Zustand*
 
 ## 📸 Screenshots
   **CHAT-UI**
-> ![image](https://github.com/user-attachments/assets/8dddcb82-8696-497e-9678-f9f8501fde02)
+> ![image](https://github.com/user-attachments/assets/23cb6197-feab-46e0-b598-f6dd76caac01)
+
 
 
 ---
@@ -46,9 +47,9 @@ cd HelloW-Chat-App
 
 
 # 2. Install backend dependencies
-cd Back-End
+cd server
 npm install 
 
 # 3. Install frontend dependencies
-cd FrontEnd
+cd client
 npm install
