@@ -2,12 +2,12 @@ import React from 'react'
 import {useChatStore} from "../store/useChatStore.js";
 import { useAuthStore} from '../store/useAuthStore.js';
 import { X ,Trash , Menu,ArrowLeft} from "lucide-react";
-import { useEffect,useState } from 'react';
-
+import { useEffect,useState , useContext } from 'react';
+import { ChatMenuContext } from '../context/chatMenu.context.jsx';
 const ChatHeader = ()=> {
   const {selectedUser,setSelectedUser,deleteAllMsgs,clearChatSubs,clearChatUnsubs} = useChatStore()
   const {onlineUsers,authUser} = useAuthStore()
-  const [isMenuOpen,setIsMenuOpen] = useState(false)
+  const {isChatMenuOpen,setIsChatMenuOpen} = useContext(ChatMenuContext)
   const [delMsgs,setDelMsgs] = useState(false)
   
 
@@ -37,13 +37,13 @@ const ChatHeader = ()=> {
             </span>
          </div>
          <span className="flex gap-2 flex-column">
-            <button className="p-2" onClick={()=>setIsMenuOpen(!isMenuOpen)}>
-              {!isMenuOpen ? <Menu size={24} className="text-white"/> : <X size={22} className="text-white"/>}
+            <button className="p-2" onClick={()=>setIsChatMenuOpen(!isChatMenuOpen)}>
+              {!isChatMenuOpen ? <Menu size={24} className="text-white"/> : <X size={22} className="text-white"/>}
             </button>
          </span>
     </div>
-    {isMenuOpen && (<div className="bg-gray-900 rounded-md p-2 w-fit h-fit absolute right-0 top-12 z-50" >
-                      <button onClick={()=>{setDelMsgs(!delMsgs);setIsMenuOpen(!isMenuOpen)}} className="px-1 rounded-md  flex justify-center items-center cursor-pointer mb-1 gap-1 text-[#fff]"><Trash size={18}/>clear chat</button>
+    {isChatMenuOpen && (<div className="bg-gray-900 rounded-md p-2 w-fit h-fit absolute right-0 top-12 z-50" >
+                      <button onClick={()=>{setDelMsgs(!delMsgs);setIsChatMenuOpen(!isChatMenuOpen)}} className="px-1 rounded-md  flex justify-center items-center cursor-pointer mb-1 gap-1 text-[#fff]"><Trash size={18}/>clear chat</button>
                       <button onClick={()=>setSelectedUser(null)} className="px-2 text-[#fff] rounded mr-2 flex items-center justify-center gap-1">
                            <ArrowLeft size={18} /> back  
                       </button>

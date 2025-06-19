@@ -2,12 +2,20 @@ import React from 'react'
 import { useAuthStore } from "../store/useAuthStore.js";
 import { Settings, User,LogOut ,Menu,X,Home} from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState , useContext } from 'react';
+import { ChatMenuContext } from '../context/chatMenu.context.jsx';
 const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
   const [settingsVisible,setSettingsvisible] = useState(false)
-
+  const {isChatMenuOpen,setIsChatMenuOpen} = useContext(ChatMenuContext);
+  // console.log("re-rendered Navbar");
+  const handleMenuOpen = () => {
+    if(isChatMenuOpen) { // close chatMenu and open main menu when chatMenu is Open
+      setIsChatMenuOpen(!isChatMenuOpen);
+    } 
+    setIsOpen(!isOpen)
+  }
   return (
     <div className="h-[80px] w-full bg-[#424769] flex justify-between items-center px-4 sticky top-0 z-50 text-white">
       <h1 className="text-2xl font-bold cursor-pointer">
@@ -23,7 +31,7 @@ const Navbar = () => {
       </div>
 
       {/* Hamburger Icon */}
-      {authUser && <button className="sm:hidden" onClick={() => setIsOpen(!isOpen)}>
+      {authUser && <button className="sm:hidden" onClick={handleMenuOpen}>
         {isOpen ? <X size={32} /> : <Menu size={32} />}
       </button>}
 
