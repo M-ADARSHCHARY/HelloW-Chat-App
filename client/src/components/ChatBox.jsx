@@ -49,7 +49,7 @@ const ChatBox = () => {
        <MessageInput/>
   </div>)
   return (
-    <div className={`h-[90vh] md:h-[90vh] w-full relative  flex flex-col justify-start`}>
+    <div className={`h-[90vh] md:h-[90vh] w-full relative bg-black flex flex-col justify-start`}>
        <ChatHeader/>
 
       <div  className={`z-5 h-[77%] w-full ${chatTheme || "bg-black"} text-[#fff] overflow-y-auto space-y-4 overflow-hidden p-2`}>

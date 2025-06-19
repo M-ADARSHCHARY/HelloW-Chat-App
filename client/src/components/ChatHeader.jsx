@@ -43,7 +43,7 @@ const ChatHeader = ()=> {
          </span>
     </div>
     {isMenuOpen && (<div className="bg-gray-900 rounded-md p-2 w-fit h-fit absolute right-0 top-12 z-50" >
-                      <button onClick={()=>{setDelMsgs(!delMsgs);setIsMenuOpen(!isMenuOpen)}}className="p-1 rounded-md  flex justify-center items-center cursor-pointer text-sm mb-1 gap-1"><Trash size={18}/>clear chat</button>
+                      <button onClick={()=>{setDelMsgs(!delMsgs);setIsMenuOpen(!isMenuOpen)}} className="px-1 rounded-md  flex justify-center items-center cursor-pointer mb-1 gap-1 text-[#fff]"><Trash size={18}/>clear chat</button>
                       <button onClick={()=>setSelectedUser(null)} className="px-2 text-[#fff] rounded mr-2 flex items-center justify-center gap-1">
                            <ArrowLeft size={18} /> back  
                       </button>
