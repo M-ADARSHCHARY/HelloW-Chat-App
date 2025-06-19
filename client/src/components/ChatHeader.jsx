@@ -38,7 +38,7 @@ const ChatHeader = ()=> {
          </div>
          <span className="flex gap-2 flex-column">
             <button className="p-2" onClick={()=>setIsMenuOpen(!isMenuOpen)}>
-              {!isMenuOpen ? <Menu size={24} className="bg-white"/> : <X size={22} className="bg-white"/>}
+              {!isMenuOpen ? <Menu size={24} className="text-white"/> : <X size={22} className="text-white"/>}
             </button>
          </span>
     </div>
