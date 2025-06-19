@@ -68,8 +68,8 @@ const MessageInput = () => {
                <Image className="w-5 h-5"/>
        </button>
     
-    <button className="p-2 hover:bg-gray-200 rounded mr-2" >
-        {sendingMessage ? (<Loader2 className="size-10 animate-spin"/>) :<Send className={`w-5 h-5 ${text ? "text-blue-600" : "text-blue-100" }`} />}
+    <button className="p-2  rounded mr-2" >
+        {sendingMessage ? (<Loader2 className="size-10 animate-spin"/>) :<Send className={`w-5 h-5 ${text ? "text-blue-600" : "text-blue-100" } cursor-pointer`} />}
     </button>
 </form>
     </>

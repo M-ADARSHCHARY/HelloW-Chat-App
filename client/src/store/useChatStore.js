@@ -15,7 +15,7 @@ export const useChatStore = create((set,get)=>({
     isUsersLoading:false,
     isMessagesLoading:false,
     sendingMessage:false,
-    chatTheme:"bg-base-300",
+    chatTheme:"bg-black",
 
 
     getUsers: async ()=>{

@@ -49,10 +49,10 @@ const ChatBox = () => {
        <MessageInput/>
   </div>)
   return (
-    <div className={`h-[90vh] md:h-[90vh] w-full relative ${chatTheme || "bg-black"} flex flex-col justify-start`}>
+    <div className={`h-[90vh] md:h-[90vh] w-full relative  flex flex-col justify-start`}>
        <ChatHeader/>
 
-      <div  className="z-5 h-[75%] w-full bg-black-400 text-[#fff] overflow-y-auto space-y-4 overflow-hidden p-2">
+      <div  className={`z-5 h-[77%] w-full ${chatTheme || "bg-black"} text-[#fff] overflow-y-auto space-y-4 overflow-hidden p-2`}>
         {messages.map((message)=>{
           return (
             <div ref = {messageScrollRef}  key={message._id} className={`chat ${message.senderId === authUser._id ? "chat-end":"chat-start"}`}>
