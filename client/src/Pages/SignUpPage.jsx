@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuthStore } from '../store/useAuthStore.js'
 import { Eye, EyeOff ,Loader2 } from "lucide-react";
 import { toast } from 'react-hot-toast';
-
+import { Link } from 'react-router-dom';
 const SignUpPage = () => {
 
   const [showPassword,setShowPassword] = React.useState(false);
@@ -96,7 +96,7 @@ const SignUpPage = () => {
             )}
           </button>
 
-          <a href="/login" className="text-center text-sm text-indigo-700 hover:underline mt-2">Have an account? Login</a>
+          <span className="text-center text-sm text-gray-500">Have an account.? <Link to="/login" className="text-center text-sm text-indigo-700 hover:underline mt-2">Login</Link></span>
         </form>
       </div>
     </div>

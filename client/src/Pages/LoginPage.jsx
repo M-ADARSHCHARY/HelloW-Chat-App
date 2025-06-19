@@ -67,9 +67,9 @@ const LoginPage = () => {
               value={formData.password}
             />
             <span onClick={()=>setShowPassword(!showPassword)} className="ml-1 absolute right-4 top-1">
-              {showPassword ? <EyeOff className="text-[#fff] absolute right-2 top-7" />
+              {showPassword ? <EyeOff className="text-black absolute right-2 top-7 cursor-pointer" />
                :
-               <Eye className="text-[#fff] absolute right-2 top-7" />}
+               <Eye className="text-black absolute right-2 top-7 cursor-pointer" />}
             </span>
           </div>
 
