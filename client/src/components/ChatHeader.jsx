@@ -1,13 +1,13 @@
 import React from 'react'
 import {useChatStore} from "../store/useChatStore.js";
 import { useAuthStore} from '../store/useAuthStore.js';
-import { X ,Trash} from "lucide-react";
+import { X ,Trash , Menu} from "lucide-react";
 import { useEffect,useState } from 'react';
 
 const ChatHeader = ()=> {
   const {selectedUser,setSelectedUser,deleteAllMsgs,clearChatSubs,clearChatUnsubs} = useChatStore()
   const {onlineUsers,authUser} = useAuthStore()
-  // console.log("ChatHeader :",selectedUser)
+  const [isMenuOpen,setIsMenuOpen] = useState(false)
   const [delMsgs,setDelMsgs] = useState(false)
   
 
@@ -27,6 +27,7 @@ const ChatHeader = ()=> {
     },[selectedUser?._id])
 
   return (
+    <>
     <div className="min-h-[70px] h-[10vh] bg-black flex items-center justify-between">
          <div className="h-full w-fit flex items-center gap-2 ml-2 justify-start">
             <img src={selectedUser?.profilePic} alt={selectedUser?.fullName} className="ml-1 size-12 object-cover rounded-full"/>
@@ -35,13 +36,21 @@ const ChatHeader = ()=> {
                  <h6 className={onlineUsers.includes(selectedUser._id)?"text-green-500":"text-red-400"}>{onlineUsers.includes(selectedUser._id)?("Online"):("offline")}</h6>
             </span>
          </div>
-         <span className="flex gap-2">
-          <button onClick={()=>{setDelMsgs(!delMsgs)}}className="p-1 rounded-md bg-slate-500 flex justify-center items-center hover:bg-red-800 text-sm"><Trash size={22}/>clear chat</button>
-         <button onClick={()=>setSelectedUser(null)} className="p-2 text-[#fff] hover:text-black hover:bg-[#fff] rounded mr-2">
-                 <X className="w-5 h-5" />
-         </button>
+         <span className="flex gap-2 flex-column">
+            <button className="p-2" onClick={()=>setIsMenuOpen(!isMenuOpen)}>
+              {!isMenuOpen ? <Menu size={24}/> : <X size={22}/>}
+            </button>
          </span>
     </div>
+    {isMenuOpen && (<div className="bg-blue-400 p-2 w-fit h-fit absolute right-0 top-12" >
+                      <button onClick={()=>{setDelMsgs(!delMsgs);setIsMenuOpen(!isMenuOpen)}}className="p-1 rounded-md bg-slate-500 flex justify-center items-center cursor-pointer text-sm mb-1"><Trash size={22}/>clear chat</button>
+                      <button onClick={()=>setSelectedUser(null)} className="px-2 text-[#fff] hover:text-black hover:bg-[#fff] rounded mr-2">
+                            back
+                      </button>
+                    </div>
+               )
+    }
+    </>
   )
 }
 
