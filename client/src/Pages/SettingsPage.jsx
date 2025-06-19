@@ -42,7 +42,7 @@ const SettingsPage = () => {
             <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center space-y-4">
                 <h3 className="text-xl font-semibold text-gray-800">Confirm Deletion</h3>
-                <p className="text-gray-600">Are you sure.? want to delete your account?</p>
+                <p className="text-gray-600">Are you sure,want to delete your account.?</p>
                 
                 <div className="flex justify-around pt-4">
                 {!isDeletingAccount ? (
@@ -53,7 +53,7 @@ const SettingsPage = () => {
                 <button className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition duration-200" onClick={()=>{setShowPopup(!showPopup)}}>
                     Cancel
                     
-                </button></>) : <div className="h-full w-full bg-white text-black flex flex-col justify-center items-center p-2 rounded-md"><Loader className="size-10 animate-spin bg-black"/> <span>Deleting your Account</span></div> }
+                </button></>) : <div className="h-full w-full bg-white text-black flex flex-col justify-center items-center p-2 rounded-md"><Loader className="size-10 animate-spin text-black"/> <span>Deleting your Account</span></div> }
                 </div>
             </div>
             </div>
