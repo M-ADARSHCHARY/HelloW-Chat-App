@@ -6,7 +6,7 @@ export const ChatMenuProvider = ({ children }) => {
   const [isChatMenuOpen,setIsChatMenuOpen] = useState(false);
 
   return (
-    <ChatMenuContext.Provider value={{isChatMenuOpen,setIsChatMenuOpen}}>
+    <ChatMenuContext.Provider value={{isChatMenuOpen, setIsChatMenuOpen}}>
       {children}
     </ChatMenuContext.Provider>
   );

@@ -5,11 +5,15 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import {app,io,server} from "./lib/socket.js";
+import passport from "passport";
 import cors from "cors";
-
+import passportSetup from "./config/passport.js"
 
 dotenv.config();
+
 app.use(cookieParser());
+
+app.use(passport.initialize());
 app.use(express.json({ limit: "50mb" }));
 
 

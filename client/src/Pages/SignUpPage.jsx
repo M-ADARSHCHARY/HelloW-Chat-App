@@ -1,18 +1,20 @@
-import React from 'react'
+import React ,{useEffect, useState}from 'react'
 import { useAuthStore } from '../store/useAuthStore.js'
 import { Eye, EyeOff ,Loader2 } from "lucide-react";
 import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 const SignUpPage = () => {
 
   const [showPassword,setShowPassword] = React.useState(false);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   
-  const [formData,setFormData] = React.useState({
+  const [formData,setFormData] = useState({
     fullName:"",
     email:"",
     password:"",
   });
-   const {signup,isSigningUp} = useAuthStore();
+   const {signup,isSigningUp, checkAuth} = useAuthStore();
   
    const validateForm = ()=>{ 
       if(!formData.fullName.trim()) {
@@ -37,6 +39,36 @@ const SignUpPage = () => {
       signup(formData);
     }
   }
+
+
+  // Handle OAuth redirects
+  
+    {/*
+    When Google redirects back, URL changes from localhost:5173/login to localhost:5173/login?oauth=success
+    searchParams changes → useEffect runs → OAuth handling executes */}
+    useEffect(() => {
+      const oauthResult = searchParams.get('oauth');
+      const error = searchParams.get('error');
+      if (oauthResult === 'success') {
+        // toast.success('Signed in with Google successfully!');
+        console.log("oauthResult Success");
+        checkAuth(); // Refresh auth state
+        setTimeout(() => navigate('/'), 100);
+      } else if (error) {
+        const errorMessages = {
+          'oauth_failed': 'Google login failed. Please try again.',
+          'token_generation_failed': 'Login successful but session creation failed.',
+        };
+        toast.error(errorMessages[error] || `Login failed: ${error}`);
+      }
+    }, [searchParams, navigate, checkAuth]);
+  // Google OAuth handler
+  const handleGoogleSignIn = (e) => {
+    e.preventDefault();
+   
+    // console.log("Google Sign In clicked"); // Debug log
+     window.location.href = import.meta.env.VITE_MODE === "development" ? 'http://localhost:3000/api/auth/google' : `${import.meta.env.VITE_BACKEND_URL}/api/auth/google`;
+  };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
@@ -82,7 +114,8 @@ const SignUpPage = () => {
             </div>
           </div>
 
-          <button
+          <span>
+             <button
             type="submit"
             className="w-full flex justify-center items-center gap-2 bg-indigo-600 text-white font-semibold py-2 rounded-md hover:bg-indigo-700 transition-colors"
           >
@@ -95,6 +128,20 @@ const SignUpPage = () => {
               "Create Account"
             )}
           </button>
+
+             
+                <button onClick={handleGoogleSignIn} className="mx-auto mt-2 flex items-center gap-2 p-2 border rounded text-black">
+                    <img 
+                      src="https://www.svgrepo.com/show/355037/google.svg" 
+                      alt="Google" 
+                      className="w-5 h-5"
+                    />
+                    <span>Sign in with Google</span>
+              </button>
+             
+
+
+          </span>
 
           <span className="text-center text-sm text-gray-500">Have an account.? <Link to="/login" className="text-center text-sm text-indigo-700 hover:underline mt-2">Login</Link></span>
         </form>

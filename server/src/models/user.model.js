@@ -12,12 +12,24 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true,
+        required:false,
         minlength:6,
     },
     profilePic:{
         type:String,
         default:"",
+    },
+
+    //New fields for OAuth
+    googleId:{
+        type:String,
+        unique:true,
+        sparse:true,
+    },
+    authProvider:{
+        type:String,
+        enum:["google", "local"], // local means normal email/password
+        default:"local"
     }
 },
   {timestamps:true,}
