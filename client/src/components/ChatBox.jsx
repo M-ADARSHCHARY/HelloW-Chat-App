@@ -2,10 +2,11 @@ import React from 'react'
 import { useChatStore } from '../store/useChatStore.js'
 import ChatHeader from "./ChatHeader.jsx"
 import MessageInput from './MessageInput.jsx'
-import {Loader2 ,Trash } from "lucide-react"
+import {Loader2 ,MessageSquare,Trash } from "lucide-react"
 import { useAuthStore } from '../store/useAuthStore.js'
 import { formatMsgTime } from '../lib/utils.js'
 import { useEffect,useRef } from 'react'
+import SwingingMessageIcon from '../framer-motion/SwingingMessageIcon.jsx'
 const ChatBox = () => {
   const {getMessages,messages,selectedUser,isMessagesLoading,subsToMsgs,unSubsToMsgs,deleteMessage,delMsgSubscribe,delMsgUnsubscribe,chatTheme} = useChatStore();
   // console.log(`${selectedUser.fullName} msgs: `,messages)
@@ -65,7 +66,8 @@ const ChatBox = () => {
         //   backgroundAttachment: 'fixed'
         // }}}
       >
-        {messages.map((message, index)=>{
+
+        {messages.length == 0 ? <div className="relative top-[45%] mx-auto flex flex-wrap justify-center items-center  h-fit w-fit p-2 text-white gap-x-2 opacity-[0.4]"><span className="whitespace-nowrap">Start a new conversation</span><SwingingMessageIcon/></div> : messages.map((message, index)=>{
           // Check if we need to show a date separator
           const currentMsgDate = new Date(message.createdAt).toDateString();
           const prevMsgDate = index > 0 ? new Date(messages[index - 1].createdAt).toDateString() : null;

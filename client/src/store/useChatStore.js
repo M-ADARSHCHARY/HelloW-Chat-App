@@ -20,8 +20,6 @@ export const useChatStore = create((set,get)=>({
     hasMoreUsers:true,
     isLoadingMoreUsers:false,
 
-
-
     // For Initial load & Reset
     getUsers: async (skip = 0, limit = 10, reset = true) => {
         set({isUsersLoading:true});
