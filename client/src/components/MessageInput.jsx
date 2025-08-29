@@ -51,27 +51,50 @@ const MessageInput = () => {
     }
   return (
     <>
-      {imagePreview ? (<div  className="h-20 w-20 rounded-md absolute bottom-5 z-20">
-         <button className="absolute top-0 right-0 h-fit w-fit bg-black rounded-full p-1" onClick={removeImage}>
-              <X size={15} />
+      {imagePreview && (
+        <div className="absolute bottom-20 left-4 z-20 bg-white rounded-lg shadow-lg border border-gray-200 p-2">
+         <button className="absolute -top-2 -right-2 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors" onClick={removeImage}>
+              <X className="w-3 h-3" />
          </button>
-       <img src={imagePreview} alt="Preview"className="h-20 w-20 rounded-md"  />
-      </div>):""}
-      <form onSubmit={handleSendMessage}className="min-h-[65px] h-[10vh] w-full bg-black flex items-center justify-evenly absolute bottom-0">
+       <img src={imagePreview} alt="Preview" className="w-16 h-16 rounded-md object-cover" />
+      </div>
+      )}
+      
+      <form onSubmit={handleSendMessage} className="min-h-[65px] h-[10vh] w-full bg-white border-t border-gray-200 flex items-center gap-3 px-4 absolute bottom-0">
      
-    <div className="ml-1 h-full w-fit md:w-[85%]  flex items-center">
-       <input type="text" className="w-full h-[70%] rounded-md md:ml-2 mr-1 text-center focus:outline-none" name="text" placeholder='send a message' autoComplete="off" onChange={(e)=>{setText(e.target.value)}} value = {text}/>
-    </div>
-    
+        <div className="flex-1 flex items-center">
+           <input 
+             type="text" 
+             className="w-full h-10 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-sm placeholder-gray-500" 
+             name="text" 
+             placeholder="Type a message..." 
+             autoComplete="off" 
+             onChange={(e)=>{setText(e.target.value)}} 
+             value={text}
+           />
+        </div>
+        
         <input type="file" className="hidden" accept="image/*" ref={fileInputRef} onChange={handleImageChange}/>
-       <button type="button" className={`size-5 btn btn-circle ${imagePreview ? 'text-emerald-500' : "text-zinc-400"}`} onClick={()=> fileInputRef.current?.click()}>
+        
+        <button 
+          type="button" 
+          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${imagePreview ? 'bg-green-100 text-green-600' : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`} 
+          onClick={()=> fileInputRef.current?.click()}
+        >
                <Image className="w-5 h-5"/>
-       </button>
+        </button>
     
-    <button className="p-2  rounded mr-2" >
-        {sendingMessage ? (<Loader2 className="size-10 animate-spin"/>) :<Send className={`w-5 h-5 ${text ? "text-blue-600" : "text-blue-100" } cursor-pointer`} />}
-    </button>
-</form>
+        <button 
+          type="submit"
+          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${text.trim() ? "bg-black text-white hover:bg-gray-800" : "bg-gray-100 text-gray-400"}`}
+        >
+            {sendingMessage ? (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <Send className="w-4 h-4" />
+            )}
+        </button>
+      </form>
     </>
   )
 }

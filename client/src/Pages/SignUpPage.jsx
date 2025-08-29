@@ -71,58 +71,69 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
-      <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-8 sm:p-10">
-        <h2 className="text-center text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Welcome to Hellow</h2>
-        <h3 className="text-center text-lg sm:text-xl font-semibold text-gray-600 mb-6">Create Account</h3>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
-            <label htmlFor="fullName" className="text-sm font-medium text-gray-700 sm:text-right">Full Name</label>
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-sm sm:max-w-md lg:max-w-lg w-full bg-white p-6 sm:p-8 lg:p-10 rounded-2xl shadow-2xl border border-gray-200">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-black mb-2">Welcome to Hellow</h2>
+        <h3 className="text-lg sm:text-xl font-semibold text-center text-gray-600 mb-4 sm:mb-6">Create Account</h3>
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          <div>
+            <label htmlFor="fullName" className="block mb-1 text-sm sm:text-base font-medium text-black">
+              Full Name
+            </label>
             <input
               type="text"
               name="fullName"
-              className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-2 border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all duration-200"
               value={formData.fullName}
               onChange={(e)=> setFormData({...formData, fullName:e.target.value})}
             />
+          </div>
 
-            <label htmlFor="email" className="text-sm font-medium text-gray-700 sm:text-right">Email</label>
+          <div>
+            <label htmlFor="email" className="block mb-1 text-sm sm:text-base font-medium text-black">
+              Email
+            </label>
             <input
-              type="text"
+              type="email"
               name="email"
-              className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-2 border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all duration-200"
               value={formData.email}
               onChange={(e)=> setFormData({...formData, email:e.target.value})}
             />
+          </div>
 
-            <label htmlFor="password" className="text-sm font-medium text-gray-700 sm:text-right">Create Password</label>
+          <div>
+            <label htmlFor="password" className="block mb-1 text-sm sm:text-base font-medium text-black">
+              Create Password
+            </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="w-full border rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all duration-200"
                 value={formData.password}
                 onChange={(e)=> setFormData({...formData, password:e.target.value})}
               />
               <button
                 type="button"
                 onClick={()=>setShowPassword(!showPassword)}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 hover:text-gray-800"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black transition-colors duration-200"
               >
-                {showPassword ? <EyeOff size={18}/> : <Eye size={18}/>}
+                {showPassword ? <EyeOff className="w-5 h-5"/> : <Eye className="w-5 h-5"/>}
               </button>
             </div>
           </div>
 
-          <span>
+          <div className="w-full flex flex-col sm:flex-row gap-3 sm:gap-2">
              <button
             type="submit"
-            className="w-full flex justify-center items-center gap-2 bg-indigo-600 text-white font-semibold py-2 rounded-md hover:bg-indigo-700 transition-colors"
+            className="w-full sm:flex-1 bg-black text-white py-2 sm:py-2.5 px-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+            disabled={isSigningUp}
           >
             {isSigningUp ? (
               <>
-                <Loader2 className="size-5 animate-spin"/>
-                Loading...
+                <Loader2 className="size-4 sm:size-5 animate-spin mr-2"/>
+                Creating...
               </>
             ) : (
               "Create Account"
@@ -130,20 +141,22 @@ const SignUpPage = () => {
           </button>
 
              
-                <button onClick={handleGoogleSignIn} className="mx-auto mt-2 flex items-center gap-2 p-2 border rounded text-black">
+                <button onClick={handleGoogleSignIn} className="w-full sm:w-auto flex items-center justify-center gap-2 p-2 sm:p-2.5 border-2 border-black rounded-xl text-black hover:bg-black hover:text-white transition-all duration-200 text-sm sm:text-base">
                     <img 
                       src="https://www.svgrepo.com/show/355037/google.svg" 
                       alt="Google" 
-                      className="w-5 h-5"
+                      className="w-4 h-4 sm:w-5 sm:h-5"
                     />
-                    <span>Sign in with Google</span>
+                    <span className="font-medium">Google</span>
               </button>
              
 
 
-          </span>
+          </div>
 
-          <span className="text-center text-sm text-gray-500">Have an account.? <Link to="/login" className="text-center text-sm text-indigo-700 hover:underline mt-2">Login</Link></span>
+          <p className="text-center text-xs sm:text-sm text-gray-600">
+            Have an account? <Link to="/login" className="text-black font-medium hover:underline">Login</Link>
+          </p>
         </form>
       </div>
     </div>

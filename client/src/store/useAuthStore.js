@@ -1,19 +1,21 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 import { toast } from "react-hot-toast";
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 
-
-const BASE_URL = import.meta.env.VITE_MODE === "development" ? "http://localhost:3000" : import.meta.env.VITE_BACKEND_URL;
-export const useAuthStore = create((set,get) => ({
+const BASE_URL =
+  import.meta.env.VITE_MODE === "development"
+    ? "http://localhost:3000"
+    : import.meta.env.VITE_BACKEND_URL;
+export const useAuthStore = create((set, get) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
-  onlineUsers :[],
-  socket:null,
-  isDeletingAccount : false,
+  onlineUsers: [],
+  socket: null,
+  isDeletingAccount: false,
 
   checkAuth: async () => {
     try {
@@ -47,7 +49,7 @@ export const useAuthStore = create((set,get) => ({
       await axiosInstance.post("/auth/logout");
       set({ authUser: null });
       toast.success("Logged out Successfully..!");
-      get().disconnectSocket()
+      get().disconnectSocket(); // get() -> to access currStore State, functions...
     } catch (error) {
       toast.error(error.response.data.message || "something went wrong..!");
       console.log("error in useAuthStore: ", error);
@@ -84,38 +86,37 @@ export const useAuthStore = create((set,get) => ({
     }
   },
 
-  connectSocket:()=>{
-    const {authUser} = get()
-    if(!authUser || get().socket?.connected) return
-      const socket = io(BASE_URL,{
-        query:{
-          userId:authUser._id,
-        },
-      });
-      socket.connect(); 
-      set({socket})
-      // listenting for getOnlineUsers event from backend 
-      socket.on("getOnlineUsers",(userIds)=>{
-          set({onlineUsers:userIds}); // update onlineUsers state
-      })
+  connectSocket: () => {
+    const { authUser } = get();
+    if (!authUser || get().socket?.connected) return;
+    const socket = io(BASE_URL, {
+      query: {
+        userId: authUser._id,
+      },
+    });
+    socket.connect();
+    set({ socket });
+    // listenting for getOnlineUsers event from backend
+    socket.on("getOnlineUsers", (userIds) => {
+      set({ onlineUsers: userIds }); // update onlineUsers state
+    });
   },
-  disconnectSocket:()=>{
-    if(get().socket?.connected){
+  disconnectSocket: () => {
+    if (get().socket?.connected) {
       get().socket.disconnect();
     }
   },
-  deleteAccount:async ()=>{
-    set({isDeletingAccount : true})
-    try{
+  deleteAccount: async () => {
+    set({ isDeletingAccount: true });
+    try {
       let res = await axiosInstance.post("/auth/delete-Account");
-      set({isDeletingAccount:false});
-      set({authUser:null})
+      set({ isDeletingAccount: false });
+      set({ authUser: null });
       // router.push("/login");
-      toast.success("Account Deleted Successfully")
-    }catch(error){
-       console.log("error in deleteAccount",error);
-       toast.error(error.response.message)
+      toast.success("Account Deleted Successfully");
+    } catch (error) {
+      console.log("error in deleteAccount", error);
+      toast.error(error.response.message);
     }
-  }
-  
+  },
 }));

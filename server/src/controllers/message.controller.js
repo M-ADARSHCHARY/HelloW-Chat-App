@@ -6,13 +6,53 @@ import {io} from "../lib/socket.js";
 
 export const getUsersForSideBar = async (req, res) => {
     try{
-        // Get all users except the logged in user
-        const allUsers = await User.find({_id:{$ne:req.user._id}}).select("-password -__v -createdAt -updatedAt")
+        const {skip = 0, limit = 10} = req.query;
+        // console.log("skip:",skip);
+        // console.log("Limit:",limit);
+        // Total documents count to display in front end
+        const totalUsers = await User.countDocuments({_id:{$ne:req.user._id}});
+        
 
-        if( allUsers && allUsers.length > 0){
-         return res.status(200).json(allUsers);
-        } 
-        return res.status(404).json({users:[],message:"No users found"});
+        // Get paginated Users
+        const allUsers = await User.find({_id:{$ne:req.user._id}})
+                .sort({ createdAt: -1 })        // ← ADD THIS: Sort by newest first
+                .select("-password -__v -createdAt -updatedAt")
+                .skip(parseInt(skip)) // skip given count 
+                .limit(parseInt(limit));
+
+        // 1. When No users Exists
+        if(totalUsers == 0){
+            return res.status(200).json({
+                users:[],
+                totalUsers:0,
+                hasMore:false,
+                currentSkip:parseInt(skip),
+                currentLimit:parseInt(limit),
+                message:"No users found"
+            })
+        }
+        
+        // Suppose app has 20 users user skipping 20 and asking 21-30
+        if(allUsers.length  == 0 && parseInt(skip) >= totalUsers){
+            // Requested page beyond available data
+                return res.status(200).json({
+                    users: [],
+                    totalUsers,
+                    hasMore: false,
+                    currentSkip: parseInt(skip),
+                    currentLimit: parseInt(limit),
+                    message: "No more users available"
+                });
+        }
+        
+        // 3. Normal case - users found successfully
+        return res.status(200).json({
+            users: allUsers,                    // Array of users
+            totalUsers,                         // Total count
+            hasMore: (parseInt(skip) + parseInt(limit)) < totalUsers,  // More users available?
+            currentSkip: parseInt(skip),        // Current skip value
+            currentLimit: parseInt(limit)       // Current limit value
+        });
     }catch(err){
         console.log("Error in getUsersForSideBar Controller:", err.message);
         res.status(500).json({message:"Internal Server Error"});

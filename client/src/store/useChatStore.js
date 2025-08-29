@@ -16,18 +16,61 @@ export const useChatStore = create((set,get)=>({
     isMessagesLoading:false,
     sendingMessage:false,
     chatTheme:"bg-black",
+    totalUsers: 0,
+    hasMoreUsers:true,
+    isLoadingMoreUsers:false,
 
 
-    getUsers: async ()=>{
+
+    // For Initial load & Reset
+    getUsers: async (skip = 0, limit = 10, reset = true) => {
         set({isUsersLoading:true});
         try {
-            const res = await axiosInstance.get('/message/users');
-            set({users:res.data});
+
+            const res = await axiosInstance.get(`/message/users?skip=${skip}&limit=${limit}`);
+            const newUsers = res.data.users;
+            // console.log("newUsers:",newUsers)
+            const existingUsers = reset ? [] : get().users;
+            set({
+                users:[...existingUsers,...newUsers],  // Append or replace based on reset,
+                totalUsers:res.data.totalUsers,
+                hasMoreUsers:res.data.hasMore
+            });
         } catch (error) {
             toast.error(error.response.data.message || 'something went wrong..!');
             console.log('error in useChatStore: ', error);
         } finally {
             set({isUsersLoading:false});
+        }
+    },
+    // For Loading more users (pagination)
+    loadMoreUsers:async () => {
+
+        const {hasMoreUsers, isLoadingMoreUsers, users} = get();
+        
+        if(!hasMoreUsers || isLoadingMoreUsers) return; // Prevent unnecessary calls
+
+        set({isLoadingMoreUsers: true})
+
+        try
+        {
+            const skip = users.length;
+            const limit = 10;
+
+            const res = await axiosInstance.get(`/message/users?skip=${skip}&limit=${limit}`);
+        
+            const newUsers = res.data.users;
+            const existingUsers = get().users;
+            
+            set({
+                users: [...existingUsers, ...newUsers],
+                hasMoreUsers: res.data.hasMore
+                });
+        }catch(error){
+            toast.error('Failed to load more users');
+            console.log('error loading more users: ', error);
+        } finally {
+            set({ isLoadingMoreUsers: false });
         }
     },
     getMessages: async (userId)=>{

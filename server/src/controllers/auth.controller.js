@@ -60,15 +60,18 @@ export const signUp = async (req, res) => {
 export const logIn = async (req, res) => {
   const { email, password } = req.body;
   try {
+    
     if (!email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
     const user = await User.findOne({ email });
+    
     if (!user) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
     // if user exists then check for password
     const isMatch = await bcrypt.compare(password, user.password);
+    
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid Credentials" });
     } else {
